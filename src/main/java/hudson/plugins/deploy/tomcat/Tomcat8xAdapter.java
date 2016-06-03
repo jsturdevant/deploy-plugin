@@ -24,14 +24,14 @@ public class Tomcat8xAdapter extends TomcatAdapter {
      * @param userName tomcat manager username
      */
     @DataBoundConstructor
-    public Tomcat8xAdapter(String url, String password, String userName) {
-        super(url, password, userName);
+    public Tomcat8xAdapter(String url, String managerContext, String password, String userName) {
+        super(url, managerContext, password, userName);
     }
     
 		public void configure(Configuration config) {
         super.configure(config);
         try {
-            URL _url = new URL(url + "/manager/text");
+            URL _url = new URL(url + managerContext + "/text");
             config.setProperty(RemotePropertySet.URI,_url.toExternalForm());
         } catch (MalformedURLException e) {
             throw new AssertionError(e);

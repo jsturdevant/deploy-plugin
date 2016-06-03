@@ -9,4 +9,7 @@
   <f:entry title="Tomcat URL" field="url">
     <f:textbox />
   </f:entry>
+  <f:entry title="Manager Context" field="managerContext">
+    <f:textbox default="/manager" />
+  </f:entry>
 </j:jelly>

@@ -14,10 +14,11 @@ public class Tomcat7xAdapterTest {
     private static final String url = "http://localhost:8080";
     private static final String username = "username";
     private static final String password = "password";
+    private static final String managerContext = "/manager2";
 
     @Before
     public void setup() {
-        adapter = new  Tomcat7xAdapter(url, password, username);
+        adapter = new  Tomcat7xAdapter(url, managerContext, password, username);
     }
 
     @Test

@@ -4,7 +4,8 @@
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>1.532</version>
+		<version>2.3</version> <!-- 1.532 vs 2.3 -->
+		<relativePath/>
 	</parent>
 
 	<artifactId>deploy</artifactId>
@@ -32,17 +33,40 @@
 			<id>devkiela</id>
 			<name>Daniel Barth</name>
 		</developer>
-                <developer>
+        <developer>
 			<id>leandro-freitas-softdevelop</id>
 			<name>Leandro Kersting de Freitas</name>
 		</developer>
 	</developers>
 
-	<properties>
+  <properties>
+		<!-- Baseline Jenkins version you use to build the plugin. Users must have this version or newer to run. -->
+		<jenkins.version>1.625.3</jenkins.version>
+		<!-- Java Level to use. Java 7 required when using core >= 1.612 -->
+		<java.level>7</java.level>
+		<!-- Jenkins Test Harness version you use to test the plugin. -->
+		<!-- For Jenkins version >= 1.580.1 use JTH 2.x or higher. -->
+		<jenkins-test-harness.version>2.1</jenkins-test-harness.version>
+		<!-- Other properties you may want to use:
+		     ~ hpi-plugin.version: The HPI Maven Plugin version used by the plugin..
+		     ~ stapler-plugin.version: The Stapler Maven plugin version required by the plugin.
+		-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<cargo.version>1.4.8</cargo.version>
-	</properties>
+  </properties>
 
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>http://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>http://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.codehaus.cargo</groupId>
@@ -92,6 +116,12 @@
 			<version>3.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
     <licenses>

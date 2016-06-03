@@ -9,7 +9,6 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
-import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
 import java.io.File;
@@ -34,7 +33,6 @@ public abstract class WebLogicAdapter extends DefaultCargoContainerAdapterImpl {
 
     public final String home;
 
-    @DataBoundConstructor
     public WebLogicAdapter(String home, String userName, String password, String server, Integer port) {
         this.home = home;
         this.userName = userName;

@@ -20,16 +20,19 @@ public abstract class TomcatAdapter extends PasswordProtectedAdapterCargo {
      * Top URL of Tomcat.
      */
     public final String url;
+    public final String managerContext;
 
-    public TomcatAdapter(String url, String password, String userName) {
+    public TomcatAdapter(String url, String managerContext, String password, String userName) {
         super(userName, password);
         this.url = url;
+        this.managerContext = managerContext;
     }
 
     public void configure(Configuration config) {
         super.configure(config);
+        // TODO - default the managerContext to "/manager"
         try {
-            URL _url = new URL(url + "/manager");
+            URL _url = new URL(url + managerContext);
             config.setProperty(RemotePropertySet.URI,_url.toExternalForm());
         } catch (MalformedURLException e) {
             throw new AssertionError(e);
