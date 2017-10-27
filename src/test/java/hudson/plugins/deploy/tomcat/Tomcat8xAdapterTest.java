@@ -19,7 +19,7 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.tomcat.Tomcat7xRemoteContainer;
+import org.codehaus.cargo.container.tomcat.Tomcat8xRemoteContainer;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,20 +28,20 @@ import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
 /**
- * @author soudmaijer
+ * @author frekele
  */
-public class Tomcat7xAdapterTest {
+public class Tomcat8xAdapterTest {
 
-    private Tomcat7xAdapter adapter;
+    private Tomcat8xAdapter adapter;
     private static final String url = "http://localhost:8080";
     private static final String configuredUrl = "http://localhost:8080/manager/text";
     private static final String urlVariable = "URL";
     private static final String username = "usernm";
     private static final String usernameVariable = "user";
     private static final String password = "password";
-    private static final String managerContext = "/manager2";
     private static final String variableStart = "${";
     private static final String variableEnd = "}";
+    private static final String managerContext = "/manager2";
     
     @Rule public JenkinsRule jenkinsRule = new JenkinsRule();
 
@@ -50,13 +50,13 @@ public class Tomcat7xAdapterTest {
         UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "test", "sample", username, password);
         CredentialsProvider.lookupStores(jenkinsRule.jenkins).iterator().next().addCredentials(Domain.global(), c);
 
-        adapter = new  Tomcat7xAdapter(url, managerContext, c.getId());
+        adapter = new  Tomcat8xAdapter(url, managerContext, c.getId());
         adapter.loadCredentials(/* temp project to avoid npe */ jenkinsRule.createFreeStyleProject());
     }
 
     @Test
     public void testContainerId() {
-        Assert.assertEquals(adapter.getContainerId(), new Tomcat7xRemoteContainer(null).getId());            
+        Assert.assertEquals(adapter.getContainerId(), new Tomcat8xRemoteContainer(null).getId());            
     }
 
     @Test
@@ -80,12 +80,11 @@ public class Tomcat7xAdapterTest {
         FreeStyleBuild build = project.scheduleBuild2(0).get();
         BuildListener listener = new StreamBuildListener(new ByteArrayOutputStream());
 
-
         UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, null,
                 "", getVariable(usernameVariable), password);
         CredentialsProvider.lookupStores(jenkinsRule.jenkins).iterator().next().addCredentials(Domain.global(), c);
 
-        adapter = new Tomcat7xAdapter(getVariable(urlVariable), managerContext, c.getId());
+        adapter = new  Tomcat8xAdapter(getVariable(urlVariable), managerContext, c.getId());
         Configuration config = new DefaultConfigurationFactory().createConfiguration(adapter.getContainerId(), ContainerType.REMOTE, ConfigurationType.RUNTIME);
         adapter.migrateCredentials(Collections.EMPTY_LIST);
         adapter.loadCredentials(project);
@@ -94,7 +93,7 @@ public class Tomcat7xAdapterTest {
         Assert.assertEquals(configuredUrl, config.getPropertyValue(RemotePropertySet.URI));
         Assert.assertEquals(username, config.getPropertyValue(RemotePropertySet.USERNAME));
     }
-
+    
     private String getVariable(String variableName) {
     	return variableStart + variableName + variableEnd;
     }

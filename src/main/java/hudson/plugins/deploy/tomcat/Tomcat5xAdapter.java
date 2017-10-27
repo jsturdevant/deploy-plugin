@@ -2,6 +2,7 @@ package hudson.plugins.deploy.tomcat;
 
 import hudson.Extension;
 import hudson.plugins.deploy.ContainerAdapterDescriptor;
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
@@ -12,14 +13,16 @@ import org.kohsuke.stapler.DataBoundConstructor;
 public class Tomcat5xAdapter extends TomcatAdapter {
 
     @DataBoundConstructor
-    public Tomcat5xAdapter(String url, String managerContext, String password, String userName) {
-        super(url, managerContext, password, userName);
+    public Tomcat5xAdapter(String url, String managerContext, String credentialsId) {
+        super(url, managerContext, credentialsId);
+
     }
 
     public String getContainerId() {
         return "tomcat5x";
     }
 
+    @Symbol("tomcat5")
     @Extension
     public static final class DescriptorImpl extends ContainerAdapterDescriptor {
         public String getDisplayName() {
