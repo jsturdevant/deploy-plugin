@@ -34,7 +34,7 @@ public class Tomcat7xAdapterTest {
 
     private Tomcat7xAdapter adapter;
     private static final String url = "http://localhost:8080";
-    private static final String configuredUrl = "http://localhost:8080/manager/text";
+    private static final String configuredUrl = "http://localhost:8080/manager2/text";
     private static final String urlVariable = "URL";
     private static final String username = "usernm";
     private static final String usernameVariable = "user";
