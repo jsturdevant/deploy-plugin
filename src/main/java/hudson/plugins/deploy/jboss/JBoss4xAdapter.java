@@ -3,6 +3,7 @@ package hudson.plugins.deploy.jboss;
 import hudson.Extension;
 import hudson.plugins.deploy.ContainerAdapterDescriptor;
 
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
@@ -11,9 +12,10 @@ import org.kohsuke.stapler.DataBoundConstructor;
  * @author Kohsuke Kawaguchi
  */
 public class JBoss4xAdapter extends JBossAdapter {
+
     @DataBoundConstructor
-    public JBoss4xAdapter(String url, String password, String userName) {
-        super(url, password, userName);
+    public JBoss4xAdapter(String url, String credentialsId) {
+        super(url, credentialsId);
     }
 
     @Override
@@ -22,6 +24,7 @@ public class JBoss4xAdapter extends JBossAdapter {
     }
 
     @Extension
+    @Symbol("jboss4")
     public static final class DescriptorImpl extends ContainerAdapterDescriptor {
         @Override
         public String getDisplayName() {

@@ -2,29 +2,28 @@ package hudson.plugins.deploy.glassfish;
 
 import hudson.Extension;
 import hudson.plugins.deploy.ContainerAdapterDescriptor;
-
-import org.codehaus.cargo.container.glassfish.GlassFish3xStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.glassfish.GlassFish4xStandaloneLocalConfiguration;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * GlassFish 3.x support
+ * GlassFish 4.x support
  * 
- * @author soudmaijer
+ * @author frenout
  */
-public class GlassFish3xAdapter extends GlassFishAdapter {
+public class GlassFish4xAdapter extends GlassFishAdapter {
 
     /**
-     * GlassFish 3.x
+     * GlassFish 4.x
      *
      * @param home GlassFish home directory
      * @param credentialsId the id of the username password credential
      * @param adminPort glassfish admin port
      */
     @DataBoundConstructor
-    public GlassFish3xAdapter(String home, String credentialsId, String adminPort, String hostname) {
+    public GlassFish4xAdapter(String home, String credentialsId, String adminPort, String hostname) {
         super(home, credentialsId, adminPort, hostname);
-        GlassFish3xStandaloneLocalConfiguration conf;
+        GlassFish4xStandaloneLocalConfiguration conf;
     }
 
     /**password, userName, adminPort, hostname);
@@ -34,7 +33,7 @@ public class GlassFish3xAdapter extends GlassFishAdapter {
      */
     @Override
     protected String getContainerId() {
-        return "glassfish3x";
+        return "glassfish4x";
     }
 
     /**
@@ -44,7 +43,7 @@ public class GlassFish3xAdapter extends GlassFishAdapter {
     @Extension
     public static final class DescriptorImpl extends ContainerAdapterDescriptor {
         public String getDisplayName() {
-            return "GlassFish 3.x";
+            return "GlassFish 4.x";
         }
     }
 }

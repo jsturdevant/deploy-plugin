@@ -1,13 +1,18 @@
 package hudson.plugins.deploy.tomcat;
 
+import hudson.EnvVars;
 import hudson.Extension;
 import hudson.plugins.deploy.ContainerAdapterDescriptor;
-import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.configuration.Configuration;
-import org.kohsuke.stapler.DataBoundConstructor;
+import hudson.util.VariableResolver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.jenkinsci.Symbol;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * Tomcat 8.x
@@ -18,21 +23,22 @@ public class Tomcat8xAdapter extends TomcatAdapter {
 
     /**
      * Tomcat 8 support
-     * 
+     *
      * @param url Tomcat server location (for example: http://localhost:8080)
-     * @param password tomcat manager password
-     * @param userName tomcat manager username
+     * @param credentialsId tomcat manager username password credentials
      */
     @DataBoundConstructor
-    public Tomcat8xAdapter(String url, String managerContext, String password, String userName) {
-        super(url, managerContext, password, userName);
+    public Tomcat8xAdapter(String url, String managerContext, String credentialsId) {
+        super(url, managerContext, credentialsId);
     }
-    
-		public void configure(Configuration config) {
-        super.configure(config);
+
+    @Override
+    public void configure(Configuration config, EnvVars envVars, VariableResolver<String> resolver) {
+        super.configure(config, envVars, resolver);
         try {
-            URL _url = new URL(url + managerContext + "/text");
-            config.setProperty(RemotePropertySet.URI,_url.toExternalForm());
+            String context = StringUtils.defaultIfEmpty(this.managerContext, "/manager");
+            URL _url = new URL(expandVariable(envVars, resolver, url) + context + "/text");
+            config.setProperty(RemotePropertySet.URI, _url.toExternalForm());
         } catch (MalformedURLException e) {
             throw new AssertionError(e);
         }
@@ -45,7 +51,8 @@ public class Tomcat8xAdapter extends TomcatAdapter {
     public String getContainerId() {
         return "tomcat8x";
     }
-    
+
+    @Symbol("tomcat8")
     @Extension
     public static final class DescriptorImpl extends ContainerAdapterDescriptor {
         public String getDisplayName() {
@@ -53,4 +60,3 @@ public class Tomcat8xAdapter extends TomcatAdapter {
         }
     }
 }
-
