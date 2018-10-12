@@ -111,7 +111,7 @@ public class PipelineSyntaxTest {
         WorkflowJob p = j.getInstance().createProject(WorkflowJob.class, "SnippetTest");
         SnippetizerTester t = new SnippetizerTester(j);
 
-        ContainerAdapter tc = new Tomcat8xAdapter("http://example.com", "test-id");
+        ContainerAdapter tc = new Tomcat8xAdapter("http://example.com", "/manager2", "test-id");
         DeployPublisher dp = new DeployPublisher(Collections.singletonList(tc), "app.war");
 
         t.assertRoundTrip(new CoreStep(dp), "deploy adapters: [tomcat8(credentialsId: 'test-id', url: 'http://example.com')], war: 'app.war'");
@@ -122,7 +122,7 @@ public class PipelineSyntaxTest {
         WorkflowJob p = j.getInstance().createProject(WorkflowJob.class, "SnippetTest");
         SnippetizerTester t = new SnippetizerTester(j);
 
-        ContainerAdapter tc = new Tomcat8xAdapter("http://example.com", "test-id");
+        ContainerAdapter tc = new Tomcat8xAdapter("http://example.com", "/manager2", "test-id");
         DeployPublisher dp = new DeployPublisher(Collections.singletonList(tc), "app.war");
         dp.setOnFailure(!j.jenkins.getDescriptorByType(DeployPublisher.DescriptorImpl.class).defaultOnFailure(p));
         dp.setContextPath("my-app");

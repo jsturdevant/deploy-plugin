@@ -25,6 +25,7 @@ public class Tomcat8xAdapter extends TomcatAdapter {
      * Tomcat 8 support
      *
      * @param url Tomcat server location (for example: http://localhost:8080)
+     * @param managerContext The context for the manager for tomcat
      * @param credentialsId tomcat manager username password credentials
      */
     @DataBoundConstructor

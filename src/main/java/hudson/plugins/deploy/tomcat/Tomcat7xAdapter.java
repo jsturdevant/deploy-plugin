@@ -25,6 +25,7 @@ public class Tomcat7xAdapter extends TomcatAdapter {
      * Tomcat 7 support
      *
      * @param url Tomcat server location (for example: http://localhost:8080)
+     * @param managerContext The context for the manager for tomcat
      * @param credentialsId the tomcat user credentials
      */
     @DataBoundConstructor

@@ -34,11 +34,12 @@ public class Tomcat8xAdapterTest {
 
     private Tomcat8xAdapter adapter;
     private static final String url = "http://localhost:8080";
-    private static final String configuredUrl = "http://localhost:8080/manager/text";
+    private static final String configuredUrl = "http://localhost:8080/manager2/text";
     private static final String urlVariable = "URL";
     private static final String username = "usernm";
     private static final String usernameVariable = "user";
     private static final String password = "password";
+    private static final String managerContext = "/manager2";
     private static final String variableStart = "${";
     private static final String variableEnd = "}";
     
@@ -49,7 +50,7 @@ public class Tomcat8xAdapterTest {
         UsernamePasswordCredentialsImpl c = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL, "test", "sample", username, password);
         CredentialsProvider.lookupStores(jenkinsRule.jenkins).iterator().next().addCredentials(Domain.global(), c);
 
-        adapter = new  Tomcat8xAdapter(url, c.getId());
+        adapter = new  Tomcat8xAdapter(url, managerContext, c.getId());
         adapter.loadCredentials(/* temp project to avoid npe */ jenkinsRule.createFreeStyleProject());
     }
 
@@ -83,7 +84,7 @@ public class Tomcat8xAdapterTest {
                 "", getVariable(usernameVariable), password);
         CredentialsProvider.lookupStores(jenkinsRule.jenkins).iterator().next().addCredentials(Domain.global(), c);
 
-        adapter = new  Tomcat8xAdapter(getVariable(urlVariable), c.getId());
+        adapter = new  Tomcat8xAdapter(getVariable(urlVariable), managerContext, c.getId());
         Configuration config = new DefaultConfigurationFactory().createConfiguration(adapter.getContainerId(), ContainerType.REMOTE, ConfigurationType.RUNTIME);
         adapter.migrateCredentials(Collections.EMPTY_LIST);
         adapter.loadCredentials(project);
